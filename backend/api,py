@@ -1,0 +1,57 @@
+from flask import session,request,abort,Flask
+from functools import wraps
+from flask import session,request,abort
+import base64
+
+from markupsafe import re
+users = ["tarang"]
+tokens = ["abc"]
+password_list = {"tarang":"sgp"}
+
+
+
+
+def isBase64(s):
+    try:
+        return base64.b64encode(base64.b64decode(s)) == s
+    except Exception:
+        return False
+
+
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "username"  in session:
+            pass
+        elif "Authorization" in request.headers:
+            if request.headers.get("Authorization")[:5:] == "Basic":
+                try:
+                    cred_string =  base64.b64decode(request.headers.get("Authorization")[6::])
+                except:
+                    abort(401)
+                requested_username = str(cred_string).split(":",1)[0][2::]
+                requested_password = username = str(cred_string).split(":",1)[1][:-1:]
+                if requested_username not in users:
+                    abort(401)
+                if password_list[requested_username] != requested_password:
+                    abort(401)
+            elif request.headers.get("Authorization")[:5:] == "Token":
+                provided_token =  (request.headers.get("Authorization")[6::])  
+                if provided_token in tokens:
+                    pass
+                else:
+                    abort(401)
+
+            else:
+                abort(401)
+        else:
+            abort(401)
+                
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+
+
+
