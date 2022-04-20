@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="/static/documents.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Documents</title>
+  <meta name="language" content="en-EN" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="static/main.css">
+</head>
+<body>
+  <header class="navbar navbar-expand sticky-top bg-primary navbar-dark flex-column flex-md-row bd-navbar">
+    <a class="navbar-brand mr-0 mr-md-2" href="#">DocKat</a>
+    <div class="navbar-nav-scroll">
+      <ul class="navbar-nav bd-navbar-nav flex-row">
+        <li class="nav-item px-2">
+          <a class="nav-link active" href="#">Tags</a>
+        </li>
+        <li class="nav-item px-2">
+          <a class="nav-link" href="documents">Documents</a>
+        </li>
+        <li class="nav-item px-2">
+          <a class="nav-link" href="#">Users&Groups</a>
+        </li>
+      </ul>
+    </div>
+    <div class="form-group col-md-4">
+      <input class="form-control rounded-0 py-2" type="search"  id="example-search-input">
+    </div>
+    <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+      <li class="nav-item dropdown">
+        <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">Logout</a>
+      </li>
+    </ul>
+    
+  </header>
+  <div class="title">Documents</div>
+
+  <form>
+  <div id="card"> </div>
+</form>
+
+
+
+
+
+
+     <script type="text/javascript">
+    async function getdocs(){
+      repsonse =  await fetch("../api/documents");
+      return await repsonse.json();
+    }
+    async function renderdocs(){
+    let documents = await getdocs() ;
+    console.log(documents);
+
+
+    }
+    renderdocs();
+    var card = document.getElementById("card"),
+        form = document.getElementsByTagName("form")[0],
+        ContestantNum = 10,
+        
+        i;
+       
+    for(i=0; i<ContestantNum; i++){
+      var clone = card.cloneNode(true);
+      form.appendChild(clone);
+    }
+  </script>
+</body>

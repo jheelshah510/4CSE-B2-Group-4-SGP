@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="/static/documents.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Documents</title>
+  <meta name="language" content="en-EN" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/static/main.css">
+  <script src="https://kit.fontawesome.com/5f0d1ed04f.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header class="navbar navbar-expand sticky-top bg-primary navbar-dark flex-column flex-md-row bd-navbar">
+    <a class="navbar-brand mr-0 mr-md-2" href="#">DocKat</a>
+    <div class="navbar-nav-scroll">
+      <ul class="navbar-nav bd-navbar-nav flex-row">
+        <li class="nav-item px-2">
+          <a class="nav-link active" href="#">Tags</a>
+        </li>
+        <li class="nav-item px-2">
+          <a class="nav-link" href="#">Documents</a>
+        </li>
+        <li class="nav-item px-2">
+          <a class="nav-link" href="#">Users&Groups</a>
+        </li>
+      </ul>
+    </div>
+    <div class="form-group col-md-4">
+      <input class="form-control rounded-0 py-2" type="search"  id="example-search-input">
+    </div>
+    <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+      <li class="nav-item dropdown">
+        <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">Logout</a>
+      </li>
+    </ul>
+    
+  </header>
+  <div class="title">Documents</div>
+
+  <form>
+  <div id="card"> </div>
+</form>
+
+ 
+     <script type="text/javascript">
+
+async function getdocs(){
+      repsonse =  await fetch("../api/documents");
+      return await repsonse.json();
+    }
+    async function renderdocs(){
+    let documents = await getdocs() ;
+    console.log(documents);
+    var card = document.getElementById("card"),
+        form = document.getElementsByTagName("form")[0],
+        ContestantNum = documents["count"],
+        i;
+        form.removeChild(card);
+    for(i=0; i<ContestantNum; i++){
+      let doccard = document.createElement("div");
+      doccard.setAttribute("id","card");
+      doccard.setAttribute("onclick","popup()");
+      
+      let imgtag = document.createElement("img");
+      let doc_id = documents["results"][i]["doc_id"];
+      imgtag.setAttribute("src","/api/documents/thumbnails/"+doc_id);
+      imgtag.setAttribute("class","thumbnail");
+      imgtag.setAttribute("number",i);
+      doccard.appendChild(imgtag);
+      let title_p = document.createElement("p");
+      let doc_name = document.createTextNode(documents["results"][i]["doc_title"].substring(0, 26));
+    
+      title_p.appendChild(doc_name);
+      title_p.setAttribute("class","title-text")
+      doccard.append(title_p);
+      let box2 = document.createElement("div");
+      box2.setAttribute("id","box2");
+      box2.innerHTML='<button id="button1"><i class="fa fa-thin fa-pencil"></i></button><button id="button2"><i class="fa fa-thin fa-eye"></i></button><button id="button3"><i class="fa fa-thin fa-arrow-down-long"></i></button>';
+      doccard.appendChild(box2)
+     
+
+
+      form.appendChild(doccard);
+
+
+    }
+
+    }
+    renderdocs();
+    
+  </script>
+</body>

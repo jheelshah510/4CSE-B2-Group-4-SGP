@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Document</title>
+</head>
+<body>
+    <script>
+let data = {tag_id: 1,doc_id:"L9Q15JT37Z"};
+
+fetch("/api/tags/adddoc/", {
+  method: "POST",
+  headers: {'Content-Type': 'application/json'}, 
+  body: JSON.stringify(data)
+}).then(res => {
+  console.log("Request complete! response:", res);
+});
+
+
+    </script>
+
+</body>
+</html>
